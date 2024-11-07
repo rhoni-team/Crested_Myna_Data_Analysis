@@ -47,3 +47,23 @@ FROM simplified_valid_pol; -- 3587 total geometries
 -- After creating the table and saving it as .shp with Qgis,
 -- its size was 1.84 MB vs 6.20 MB of the original .shp.
 
+
+-- Code to update the table of data_loading_country with valid geometries
+UPDATE data_loading_country
+SET geom = valid_geom
+FROM valid_geom_view
+WHERE data_loading_country.id = valid_geom_view.id;
+
+SELECT COUNT(*) from data_loading_country
+WHERE ST_IsValid(geom) = true;
+
+-- Code to populate a table with simplified geometries
+INSERT INTO data_loading_countrysimplified(name, iso2, simple_geom)
+SELECT
+	name,
+	iso2,
+	ST_Simplify(geom, 0.01) as simple_geom
+FROM data_loading_country;
+
+SELECT SUM(ST_NumGeometries(simple_geom))
+FROM data_loading_countrysimplified;
