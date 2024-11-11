@@ -7,7 +7,7 @@ library(dplyr)
 
 
 # Crested Myna data file path
-base_path <- "/home/nati/Documents/rhoni/Crested_Myna_Data_Analysis/ebird_data/"
+base_path <- "some_path/"
 ac_path <- paste0(base_path, "ebd_cremyn_smp_relJul-2024.txt")
 
 # Open file
